@@ -1,0 +1,26 @@
+{
+    "name": "nasa_20110555",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "install-server": "npm install --prefix server",
+        "install-client": "npm install --prefix client",
+        "install": "npm run install-server && npm run install-client",
+        "server": "npm run dev --prefix server",
+        "client": "npm start --prefix client ",
+        "watch": "npm run server & npm run client",
+        "deploy" : "npm run build --prefix client && npm start --prefix server",
+        "test": "npm run test --prefix server && npm run test --prefix client"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/VuThanhSang/Nasa_20110555.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/VuThanhSang/Nasa_20110555/issues"
+    },
+    "homepage": "https://github.com/VuThanhSang/Nasa_20110555#readme"
+}

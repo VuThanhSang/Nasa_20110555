@@ -1,14 +1,22 @@
 const http = require('http');
+
 const app = require('./app');
 
-const { loadPlanetData } = require('./models/planets.model');
-const port = process.env.PORT || 3240;
+const { loadPlanetsData } = require('./models/planets.model');
+
+const PORT = process.env.PORT || 8000;
 
 const server = http.createServer(app);
 
-const startServer = async () => {
-    await loadPlanetData();
-    server.listen(port, () => console.log(`Example app listening on port http://localhost:${port}!`));
-};
+async function startServer() {
+    await loadPlanetsData();
+
+    server.listen(PORT, ()=> {
+        console.log(`Listening on port ${PORT}...`);
+    });
+}
 
 startServer();
+
+
+

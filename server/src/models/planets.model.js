@@ -1,26 +1,22 @@
-const path = require('path');
 const fs = require('fs');
-const { parse } = require('csv-parse');
+const path = require('path');
+const {parse} = require("csv-parse");
+
 const habitablePlanets = [];
 
 function isHabitablePlanet(planet) {
-    return (
-        planet['koi_disposition'] === 'CONFIRMED' &&
-        planet['koi_insol'] > 0.36 &&
-        planet['koi_insol'] < 1.11 &&
-        planet['koi_prad'] < 1.6
-    );
+  return planet['koi_disposition'] === 'CONFIRMED'
+    && planet['koi_insol'] > 0.36 && planet['koi_insol'] < 1.11
+    && planet['koi_prad'] < 1.6;
 }
 
-const loadPlanetData = () => {
-    return new Promise((resolve, rejects) => {
-        fs.createReadStream(path.join(__dirname, '..', '..', 'data', 'kepler_data.csv'))
-            .pipe(
-                parse({
-                    comment: '#',
-                    columns: true,
-                }),
-            )
+function loadPlanetsData() {
+    return new Promise((resolve, reject) => {
+        fs.createReadStream(path.join(__dirname,'..','..','data','kepler_data.csv'))
+            .pipe(parse({
+                comment: '#',
+                columns: true,
+            }))
             .on('data', (data) => {
                 if (isHabitablePlanet(data)) {
                     habitablePlanets.push(data);
@@ -28,23 +24,20 @@ const loadPlanetData = () => {
             })
             .on('error', (err) => {
                 console.log(err);
-                rejects();
+                reject(err);
             })
             .on('end', () => {
-                console.log(
-                    habitablePlanets.map((planet) => {
-                        return planet['kepler_name'];
-                    }),
-                );
                 console.log(`${habitablePlanets.length} habitable planets found!`);
                 resolve();
             });
     });
-};
-const getAllPlanets = () => {
+}
+
+function getAllPlanets() {
     return habitablePlanets;
-};
+}
+
 module.exports = {
-    loadPlanetData,
+    loadPlanetsData,
     getAllPlanets,
 };
